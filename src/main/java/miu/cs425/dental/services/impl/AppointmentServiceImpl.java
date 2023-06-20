@@ -38,4 +38,27 @@ public class AppointmentServiceImpl implements AppointmentService {
                         )
                 )).toList();
     }
+
+    @Override
+    public List<AppointmentResponseDTO> getUpcomingAppointments() {
+        return repository.findAll()
+                .stream()
+                .filter(Appointment::isUpcoming)
+                .sorted(Comparator.comparing(Appointment::getAppointmentDate)
+                        .thenComparing(Appointment::getAppointmentTime))
+                .map(appointment -> new AppointmentResponseDTO(
+                        appointment.getAppointmentId(),
+                        appointment.getAppointmentDate(),
+                        appointment.getAppointmentTime(),
+                        appointment.getDentistName(),
+                        appointment.getSurgeryLocation(),
+                        new PatientResponseDTO(
+                                appointment.getPatient().getPatientId(),
+                                appointment.getPatient().getPatientNumber(),
+                                appointment.getPatient().getFirstName(),
+                                appointment.getPatient().getLastName(),
+                                appointment.getPatient().getDateOfBirth()
+                        )
+                )).toList();
+    }
 }

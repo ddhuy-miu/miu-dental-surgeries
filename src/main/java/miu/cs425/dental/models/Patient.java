@@ -34,9 +34,15 @@ public class Patient {
     private String lastName;
 
     @Column(nullable = false)
-    @NotBlank(message = "Patient DoB is required!")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
+
+    public Patient(String patientNumber, String firstName, String lastName, LocalDate dateOfBirth) {
+        this.patientNumber = patientNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public Boolean isElder() {
         var age = Period.between(dateOfBirth, LocalDate.now()).getYears();

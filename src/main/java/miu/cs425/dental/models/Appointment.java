@@ -44,4 +44,8 @@ public class Appointment {
     public Boolean isVIP() {
         return patient.isElder();
     }
+
+    public Boolean isUpcoming() {
+        return !appointmentDate.isBefore(LocalDate.now());
+    }
 }
